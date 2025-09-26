@@ -62,26 +62,26 @@ function createRepoCard(repo, type) {
     PHP: 'bg-indigo-500',
     Swift: 'bg-orange-600',
     Rust: 'bg-orange-700',
-    Other: 'bg-gray-500'
+    Other: 'bg-slate-500'
   };
 
-  const langColor = languageColors[repo.language] || 'bg-gray-500';
+  const langColor = languageColors[repo.language] || 'bg-slate-500';
 
   return `
     <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700" data-repo-id="${repo.id}">
       <div class="p-4 md:p-5">
         <div class="flex items-start justify-between mb-3">
           <div class="flex items-center gap-2">
-            <svg class="shrink-0 size-4 text-gray-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="shrink-0 size-4 text-slate-600 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
               <circle cx="12" cy="12" r="3"/>
             </svg>
-            ${repo.private ? '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full px-2 py-0.5 dark:bg-neutral-700 dark:text-neutral-300">Private</span>' : '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-green-100 text-green-800 rounded-full px-2 py-0.5 dark:bg-green-900/30 dark:text-green-500">Public</span>'}
+            ${repo.private ? '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-slate-100 text-slate-800 rounded-full px-2 py-0.5 dark:bg-neutral-700 dark:text-neutral-300">Private</span>' : '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-green-100 text-green-800 rounded-full px-2 py-0.5 dark:bg-green-900/30 dark:text-green-500">Public</span>'}
           </div>
 
           <!-- Dropdown Actions -->
           <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
-            <button type="button" class="hs-dropdown-toggle inline-flex items-center justify-center size-8 text-sm font-semibold rounded-lg text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700">
+            <button type="button" class="hs-dropdown-toggle inline-flex items-center justify-center size-8 text-sm font-semibold rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700">
               <svg class="flex-none size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="1"/>
                 <circle cx="12" cy="5" r="1"/>
@@ -89,7 +89,7 @@ function createRepoCard(repo, type) {
               </svg>
             </button>
             <div class="hs-dropdown-menu transition-[opacity,margin] duration-300 hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 z-10 bg-white shadow-md rounded-lg p-1 space-y-0.5 mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700" role="menu">
-              ${repo.url ? `<a class="flex items-center gap-x-2 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="${repo.url}" target="_blank">
+              ${repo.url ? `<a class="flex items-center gap-x-2 py-1.5 px-2 rounded-lg text-xs text-slate-800 hover:bg-slate-100 focus:outline-hidden focus:bg-slate-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="${repo.url}" target="_blank">
                 <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M15 3h6v6"/>
                   <path d="M10 14 21 3"/>
@@ -97,7 +97,7 @@ function createRepoCard(repo, type) {
                 </svg>
                 View on GitHub
               </a>` : ''}
-              <button class="flex w-full items-center gap-x-2 py-1.5 px-2 rounded-lg text-xs text-gray-800 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" onclick="editRepo('${repo.id}', '${type}')">
+              <button class="flex w-full items-center gap-x-2 py-1.5 px-2 rounded-lg text-xs text-slate-800 hover:bg-slate-100 focus:outline-hidden focus:bg-slate-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" onclick="editRepo('${repo.id}', '${type}')">
                 <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 20h9"/>
                   <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
@@ -116,16 +116,16 @@ function createRepoCard(repo, type) {
           </div>
         </div>
 
-        <h3 class="text-base font-bold text-gray-800 dark:text-white mb-2">
+        <h3 class="text-base font-bold text-slate-800 dark:text-white mb-2">
           ${repo.name}
         </h3>
 
-        <p class="text-sm text-gray-600 dark:text-neutral-400 mb-4 line-clamp-2">
+        <p class="text-sm text-slate-600 dark:text-neutral-400 mb-4 line-clamp-2">
           ${repo.description || 'No description available'}
         </p>
 
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-neutral-400">
+          <div class="flex items-center gap-4 text-xs text-slate-500 dark:text-neutral-400">
             ${repo.language ? `<div class="flex items-center gap-1">
               <span class="size-2 rounded-full ${langColor}"></span>
               ${repo.language}
@@ -152,7 +152,7 @@ function createRepoCard(repo, type) {
           </div>
         </div>
 
-        <div class="mt-3 text-xs text-gray-500 dark:text-neutral-500">
+        <div class="mt-3 text-xs text-slate-500 dark:text-neutral-500">
           Updated ${formatDate(repo.updatedAt || repo.createdAt || new Date())}
         </div>
       </div>

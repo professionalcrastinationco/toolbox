@@ -45,19 +45,6 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-Icon
-._*
-.Spotlight-V100
-.Trashes
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
 
 # Linux
 .directory
@@ -77,9 +64,6 @@ Temporary Items
 *.iws
 .idea_modules/
 
-# Sublime Text
-*.sublime-workspace
-*.sublime-project
 
 # Vim
 *.swp
