@@ -11,7 +11,9 @@
       "Bash(git push:*)",
       "Bash(git config:*)",
       "Bash(cat:*)",
-      "Read(//c/Users/itsne/Pictures/Screenshots/**)"
+      "Read(//c/Users/itsne/Pictures/Screenshots/**)",
+      "Bash(git pull:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

@@ -2,6 +2,27 @@
 <!DOCTYPE html>
 <html lang="en" class="relative min-h-full">
 <head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://preline.co/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="A modern CMS dashboard for managing posts, members, and site content with ease.">
+
+  <meta name="twitter:site" content="@preline">
+  <meta name="twitter:creator" content="@preline">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CMS | Preline Pro | Preline UI, crafted with Tailwind CSS">
+  <meta name="twitter:description" content="A modern CMS dashboard for managing posts, members, and site content with ease.">
+  <meta name="twitter:image" content="https://preline.co/assets/img/og-image.png">
+
+  <meta property="og:url" content="https://preline.co/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Preline">
+  <meta property="og:title" content="CMS | Preline Pro | Preline UI, crafted with Tailwind CSS">
+  <meta property="og:description" content="A modern CMS dashboard for managing posts, members, and site content with ease.">
+  <meta property="og:image" content="https://preline.co/assets/img/og-image.png">
 
   <!-- Title -->
   <title>CMS | Preline Pro | Preline UI, crafted with Tailwind CSS</title>
@@ -24,7 +45,7 @@
     else if (isLightOrAuto && !html.classList.contains('light')) html.classList.add('light');
   </script>
 
-  <link rel="stylesheet" href="assets/css/apexcharts.css">
+  <link rel="stylesheet" href="../../assets/vendor/apexcharts/dist/apexcharts.css">
   <style type="text/css">
     .apexcharts-tooltip.apexcharts-theme-light
     {
@@ -57,7 +78,7 @@
   </style>
 
   <!-- CSS Preline -->
-  <link rel="stylesheet" href="assets/css/main.min.css?v=3.0.1">
+  <link rel="stylesheet" href="../../assets/css/main.min.css?v=3.0.1">
 </head>
 
 <body class="hs-overlay-body-open overflow-hidden bg-gray-100 dark:bg-neutral-900">
@@ -1989,12 +2010,12 @@
 
   <!-- JS PLUGINS -->
   <!-- Required plugins -->
-  <script src="assets/js/index.js?v=3.0.1"></script>
+  <script src="../../assets/vendor/preline/dist/index.js?v=3.0.1"></script>
 
   <!-- Apexcharts -->
-  <script src="assets/js/lodash.min.js"></script>
-  <script src="assets/js/apexcharts.min.js"></script>
-  <script src="assets/js/helper-apexcharts.js"></script>
+  <script src="../../assets/vendor/lodash/lodash.min.js"></script>
+  <script src="../../assets/vendor/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="../../assets/vendor/preline/dist/helper-apexcharts.js"></script>
 
   <!-- JS INITIALIZATIONS -->
   <script>
@@ -2331,8 +2352,17 @@
   </script>
 
   <!-- JS THIRD PARTY PLUGINS -->
-  <!-- END JS THIRD PARTY PLUGINS -->
-
-
+  <!-- Google Analytics. Global site tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B73TDMXKF5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+  
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+  
+    gtag('js', new Date());
+    gtag('config', 'G-B73TDMXKF5');
+  </script>
 </body>
 </html>
