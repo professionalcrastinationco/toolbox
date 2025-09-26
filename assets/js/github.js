@@ -50,6 +50,21 @@ function formatDate(date) {
 
 // Create repository card HTML
 function createRepoCard(repo, type) {
+  // Get settings for this repository type
+  const settings = window.settingsManager ? window.settingsManager.getCardSettings(type) : {
+    visibility: true,
+    language: true,
+    stars: true,
+    forks: true,
+    createdDate: true,
+    updatedDate: true,
+    owner: true,
+    description: true,
+    archived: true,
+    topics: true,
+    actionMenu: true
+  };
+
   const languageColors = {
     JavaScript: 'bg-yellow-500',
     TypeScript: 'bg-blue-600',
@@ -76,11 +91,11 @@ function createRepoCard(repo, type) {
               <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
               <circle cx="12" cy="12" r="3"/>
             </svg>
-            ${repo.private ? '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-slate-100 text-slate-800 rounded-full px-2 py-0.5 dark:bg-neutral-700 dark:text-neutral-300">Private</span>' : '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-green-100 text-green-800 rounded-full px-2 py-0.5 dark:bg-green-900/30 dark:text-green-500">Public</span>'}
+            ${settings.visibility ? (repo.private ? '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-slate-100 text-slate-800 rounded-full px-2 py-0.5 dark:bg-neutral-700 dark:text-neutral-300">Private</span>' : '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-green-100 text-green-800 rounded-full px-2 py-0.5 dark:bg-green-900/30 dark:text-green-500">Public</span>') : ''}
           </div>
 
           <!-- Dropdown Actions -->
-          <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
+          ${settings.actionMenu ? '<div class="hs-dropdown relative inline-flex [--placement:bottom-right]">' : ''}
             <button type="button" class="hs-dropdown-toggle inline-flex items-center justify-center size-8 text-sm font-semibold rounded-lg text-slate-500 hover:bg-slate-50 transition-colors duration-200 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700">
               <svg class="flex-none size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="1"/>
@@ -113,32 +128,32 @@ function createRepoCard(repo, type) {
                 Delete
               </button>
             </div>
-          </div>
+          ${settings.actionMenu ? '</div>' : ''}
         </div>
 
         <h3 class="text-base font-bold text-slate-800 dark:text-white mb-2">
           ${repo.name}
         </h3>
 
-        <p class="text-sm text-slate-600 dark:text-neutral-400 mb-4 line-clamp-2">
+        ${settings.description ? `<p class="text-sm text-slate-600 dark:text-neutral-400 mb-4 line-clamp-2">
           ${repo.description || 'No description available'}
-        </p>
+        </p>` : ''}
 
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-4 text-xs text-slate-500 dark:text-neutral-400">
-            ${repo.language ? `<div class="flex items-center gap-1">
+            ${settings.language && repo.language ? `<div class="flex items-center gap-1">
               <span class="size-2 rounded-full ${langColor}"></span>
               ${repo.language}
             </div>` : ''}
 
-            <div class="flex items-center gap-1">
+            ${settings.stars ? `<div class="flex items-center gap-1">
               <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
               </svg>
               ${repo.stars || 0}
-            </div>
+            </div>` : ''}
 
-            <div class="flex items-center gap-1">
+            ${settings.forks ? `<div class="flex items-center gap-1">
               <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="18" r="3"/>
                 <circle cx="5" cy="6" r="3"/>
@@ -148,13 +163,30 @@ function createRepoCard(repo, type) {
                 <path d="m13.5 8.5L16 6"/>
               </svg>
               ${repo.forks || 0}
-            </div>
+            </div>` : ''}
           </div>
         </div>
 
-        <div class="mt-3 text-xs text-slate-500 dark:text-neutral-500">
-          Updated ${formatDate(repo.updatedAt || repo.createdAt || new Date())}
-        </div>
+        ${(settings.owner || settings.createdDate || settings.updatedDate || settings.topics || settings.archived) ? '<div class="mt-3 space-y-2">' : ''}
+
+          ${settings.archived && repo.archived ? '<span class="inline-flex items-center gap-x-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full px-2 py-0.5 dark:bg-yellow-900/30 dark:text-yellow-500">Archived</span>' : ''}
+
+          ${settings.topics && repo.topics && repo.topics.length > 0 ? `<div class="flex flex-wrap gap-1">
+            ${repo.topics.map(topic => `<span class="inline-flex items-center text-xs bg-blue-100 text-blue-800 rounded-full px-2 py-0.5 dark:bg-blue-900/30 dark:text-blue-400">${topic}</span>`).join('')}
+          </div>` : ''}
+
+          ${settings.owner && repo.owner ? `<div class="text-xs text-slate-600 dark:text-neutral-400">
+            by ${repo.owner}
+          </div>` : ''}
+
+          ${settings.createdDate && repo.createdAt ? `<div class="text-xs text-slate-500 dark:text-neutral-500">
+            Created ${formatDate(repo.createdAt)}
+          </div>` : ''}
+
+          ${settings.updatedDate ? `<div class="text-xs text-slate-500 dark:text-neutral-500">
+            Updated ${formatDate(repo.updatedAt || repo.createdAt || new Date())}
+          </div>` : ''}
+        ${(settings.owner || settings.createdDate || settings.updatedDate || settings.topics || settings.archived) ? '</div>' : ''}
       </div>
     </div>
   `;
@@ -553,3 +585,6 @@ async function quickImport() {
     openImportModal();
   }
 }
+
+// Expose renderRepositories globally for settings manager
+window.renderRepositories = renderRepositories;

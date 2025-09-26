@@ -1,0 +1,31 @@
+{
+  "cardElements": {
+    "owned": {
+      "visibility": true,
+      "language": true,
+      "stars": true,
+      "forks": true,
+      "createdDate": true,
+      "updatedDate": true,
+      "owner": true,
+      "description": true,
+      "archived": true,
+      "topics": true,
+      "actionMenu": true
+    },
+    "starred": {
+      "visibility": true,
+      "language": true,
+      "stars": true,
+      "forks": true,
+      "createdDate": true,
+      "updatedDate": true,
+      "owner": true,
+      "description": true,
+      "archived": true,
+      "topics": true,
+      "actionMenu": true
+    }
+  },
+  "version": "1.0.0"
+}
