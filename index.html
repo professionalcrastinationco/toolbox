@@ -421,18 +421,10 @@
 
             <li><a class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-neutral-200" href="#">
                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-                  <line x1="16" x2="16" y1="2" y2="6" />
-                  <line x1="8" x2="8" y1="2" y2="6" />
-                  <line x1="3" x2="21" y1="10" y2="10" />
-                  <path d="M8 14h.01" />
-                  <path d="M12 14h.01" />
-                  <path d="M16 14h.01" />
-                  <path d="M8 18h.01" />
-                  <path d="M12 18h.01" />
-                  <path d="M16 18h.01" />
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                  <path d="M9 18c-4.51 2-5-2-7-2"/>
                 </svg>
-                Calendar
+                GitHub
               </a></li>
             <li><a class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-neutral-200" href="#">
                 <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -452,7 +444,165 @@
   <!-- Content -->
   <div class="w-full lg:ps-64">
     <div class="p-4 sm:p-6 space-y-4 sm:space-y-6">
-      <!-- your content goes here ... -->
+
+      <!-- GitHub Repository Manager Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800 dark:text-neutral-200">GitHub Repository Manager</h1>
+          <p class="text-sm text-gray-600 dark:text-neutral-400">Manage your repositories and starred projects</p>
+        </div>
+
+        <!-- Add Repository Button -->
+        <button type="button" onclick="openAddRepoModal()" class="inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none px-4 py-2">
+          <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14"/>
+            <path d="M5 12h14"/>
+          </svg>
+          Add Repository
+        </button>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="relative">
+        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
+          <svg class="shrink-0 size-4 text-gray-400 dark:text-white/60" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+        </div>
+        <input type="text" id="repoSearch" class="py-2 ps-10 pe-16 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-hidden focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600" placeholder="Search repositories...">
+      </div>
+
+      <!-- Tabs -->
+      <div class="border-b border-gray-200 dark:border-neutral-700">
+        <nav class="-mb-0.5 flex gap-x-6">
+          <a class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-hidden focus:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:text-blue-500 dark:focus:text-blue-500 active" href="#" data-hs-tab="#my-repos" aria-controls="my-repos">
+            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            My Repositories
+            <span id="myRepoCount" class="ms-1 py-0.5 px-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">0</span>
+          </a>
+
+          <a class="hs-tab-active:font-semibold hs-tab-active:border-blue-600 hs-tab-active:text-blue-600 py-4 px-1 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-hidden focus:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:text-blue-500 dark:focus:text-blue-500" href="#" data-hs-tab="#starred-repos" aria-controls="starred-repos">
+            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            Starred Repositories
+            <span id="starredRepoCount" class="ms-1 py-0.5 px-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-700 dark:text-neutral-300">0</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="mt-3">
+        <!-- My Repositories Tab -->
+        <div id="my-repos" class="active">
+          <div id="myReposGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Repository cards will be inserted here -->
+          </div>
+
+          <!-- Empty State -->
+          <div id="myReposEmpty" class="text-center py-10 hidden">
+            <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3h18"/>
+              <path d="M3 9h18"/>
+              <path d="M3 15h18"/>
+              <path d="M8 21h8"/>
+            </svg>
+            <p class="text-sm text-gray-600 dark:text-neutral-400">No repositories yet</p>
+            <button onclick="openAddRepoModal()" class="mt-3 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400">Add your first repository</button>
+          </div>
+        </div>
+
+        <!-- Starred Repositories Tab -->
+        <div id="starred-repos" class="hidden">
+          <div id="starredReposGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Starred repository cards will be inserted here -->
+          </div>
+
+          <!-- Empty State -->
+          <div id="starredReposEmpty" class="text-center py-10 hidden">
+            <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            <p class="text-sm text-gray-600 dark:text-neutral-400">No starred repositories yet</p>
+            <button onclick="openAddStarredModal()" class="mt-3 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400">Add a starred repository</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add/Edit Repository Modal -->
+      <div id="repoModal" class="hs-overlay hidden size-full fixed top-0 start-0 z-80 overflow-x-hidden overflow-y-auto pointer-events-none" role="dialog" tabindex="-1" aria-labelledby="repoModalLabel">
+        <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+          <div class="bg-white border border-gray-200 rounded-xl shadow-sm pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700">
+            <div class="p-4 sm:p-7">
+              <div class="text-center">
+                <h3 id="repoModalLabel" class="block text-xl font-bold text-gray-800 dark:text-neutral-200">Add Repository</h3>
+              </div>
+
+              <div class="mt-5">
+                <form id="repoForm">
+                  <div class="grid gap-y-4">
+                    <div>
+                      <label for="repoName" class="block text-sm font-medium mb-2 dark:text-white">Repository Name</label>
+                      <input type="text" id="repoName" name="name" class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" required>
+                    </div>
+
+                    <div>
+                      <label for="repoDescription" class="block text-sm font-medium mb-2 dark:text-white">Description</label>
+                      <textarea id="repoDescription" name="description" rows="3" class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"></textarea>
+                    </div>
+
+                    <div>
+                      <label for="repoLanguage" class="block text-sm font-medium mb-2 dark:text-white">Primary Language</label>
+                      <select id="repoLanguage" name="language" class="py-2 px-3 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
+                        <option value="">Select a language</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="TypeScript">TypeScript</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="C++">C++</option>
+                        <option value="C#">C#</option>
+                        <option value="Go">Go</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="PHP">PHP</option>
+                        <option value="Swift">Swift</option>
+                        <option value="Rust">Rust</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label for="repoUrl" class="block text-sm font-medium mb-2 dark:text-white">Repository URL</label>
+                      <input type="url" id="repoUrl" name="url" class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="https://github.com/username/repo">
+                    </div>
+
+                    <div class="flex items-center">
+                      <input type="checkbox" id="repoPrivate" name="private" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                      <label for="repoPrivate" class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Private Repository</label>
+                    </div>
+
+                    <input type="hidden" id="repoId" name="id">
+                    <input type="hidden" id="repoType" name="type" value="owned">
+                  </div>
+
+                  <div class="flex justify-end items-center gap-x-2 mt-5">
+                    <button type="button" onclick="closeRepoModal()" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                      Cancel
+                    </button>
+                    <button type="submit" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                      Save Repository
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
   <!-- End Content -->
@@ -463,7 +613,10 @@
   <!-- JS PLUGINS -->
   <!-- Required plugins -->
   <script src="/toolbox/assets/js/index.js?v=3.0.1"></script>
-  
+
+  <!-- GitHub Repository Manager -->
+  <script src="/toolbox/assets/js/github.js"></script>
+
   <!-- JS THIRD PARTY PLUGINS -->
 
 </body>

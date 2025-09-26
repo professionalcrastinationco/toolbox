@@ -1,0 +1,102 @@
+{
+  "owned": [
+    {
+      "id": "repo-sample-001",
+      "name": "awesome-project",
+      "description": "A full-stack web application built with React and Node.js",
+      "language": "JavaScript",
+      "url": "https://github.com/yourusername/awesome-project",
+      "private": false,
+      "stars": 42,
+      "forks": 8,
+      "createdAt": "2023-01-15T10:00:00Z",
+      "updatedAt": "2024-01-20T14:30:00Z"
+    },
+    {
+      "id": "repo-sample-002",
+      "name": "python-data-analyzer",
+      "description": "Data analysis toolkit for Python with machine learning capabilities",
+      "language": "Python",
+      "url": "https://github.com/yourusername/python-data-analyzer",
+      "private": false,
+      "stars": 156,
+      "forks": 23,
+      "createdAt": "2022-06-10T08:00:00Z",
+      "updatedAt": "2024-01-18T16:45:00Z"
+    },
+    {
+      "id": "repo-sample-003",
+      "name": "personal-website",
+      "description": "My personal portfolio website showcasing projects and skills",
+      "language": "TypeScript",
+      "url": "https://github.com/yourusername/personal-website",
+      "private": true,
+      "stars": 0,
+      "forks": 0,
+      "createdAt": "2023-09-20T12:00:00Z",
+      "updatedAt": "2024-01-22T09:15:00Z"
+    }
+  ],
+  "starred": [
+    {
+      "id": "repo-starred-001",
+      "name": "react",
+      "description": "The library for web and native user interfaces.",
+      "language": "JavaScript",
+      "url": "https://github.com/facebook/react",
+      "private": false,
+      "stars": 218000,
+      "forks": 45200,
+      "createdAt": "2013-05-24T16:15:54Z",
+      "updatedAt": "2024-01-23T10:00:00Z"
+    },
+    {
+      "id": "repo-starred-002",
+      "name": "tensorflow",
+      "description": "An Open Source Machine Learning Framework for Everyone",
+      "language": "Python",
+      "url": "https://github.com/tensorflow/tensorflow",
+      "private": false,
+      "stars": 181000,
+      "forks": 89000,
+      "createdAt": "2015-11-07T01:19:20Z",
+      "updatedAt": "2024-01-23T08:30:00Z"
+    },
+    {
+      "id": "repo-starred-003",
+      "name": "rust",
+      "description": "Empowering everyone to build reliable and efficient software.",
+      "language": "Rust",
+      "url": "https://github.com/rust-lang/rust",
+      "private": false,
+      "stars": 91000,
+      "forks": 11800,
+      "createdAt": "2010-06-16T20:39:03Z",
+      "updatedAt": "2024-01-23T12:15:00Z"
+    },
+    {
+      "id": "repo-starred-004",
+      "name": "vscode",
+      "description": "Visual Studio Code",
+      "language": "TypeScript",
+      "url": "https://github.com/microsoft/vscode",
+      "private": false,
+      "stars": 156000,
+      "forks": 27400,
+      "createdAt": "2015-09-03T20:23:38Z",
+      "updatedAt": "2024-01-23T11:00:00Z"
+    },
+    {
+      "id": "repo-starred-005",
+      "name": "go",
+      "description": "The Go programming language",
+      "language": "Go",
+      "url": "https://github.com/golang/go",
+      "private": false,
+      "stars": 118000,
+      "forks": 17800,
+      "createdAt": "2014-08-19T04:33:40Z",
+      "updatedAt": "2024-01-23T09:45:00Z"
+    }
+  ]
+}
