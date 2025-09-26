@@ -1,0 +1,30 @@
+/*! Tailwind CSS v4.0.14 | MIT License | https://tailwindcss.com */
+
+/**
+ * Main CSS Entry Point
+ * This file imports all modular CSS files in the correct order
+ * Organized by Tailwind CSS layers: theme, base, components, utilities
+ */
+
+/* Theme Layer - Design tokens and CSS variables */
+@import "./theme/colors.css";
+@import "./theme/typography.css";
+@import "./theme/spacing.css";
+@import "./theme/effects.css";
+
+/* Base Layer - CSS reset and default element styles */
+@import "./base/reset.css";
+
+/* Components Layer - Reusable component patterns */
+@import "./components/components.css";
+
+/* Utilities Layer - Single-purpose utility classes */
+@import "./utilities/all-utilities.css";
+
+/*
+ * Usage Notes:
+ * - To customize, modify individual module files
+ * - To disable a module, comment out its import
+ * - Order matters: theme > base > components > utilities
+ * - For production, this file should be processed and minified
+ */
