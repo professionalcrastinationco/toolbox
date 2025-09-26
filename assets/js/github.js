@@ -4,6 +4,9 @@ let repositories = {
   starred: []
 };
 
+// GitHub API instance
+let githubAPI = null;
+
 // Load data from localStorage or data.json
 async function loadData() {
   try {
@@ -354,4 +357,199 @@ function exportData() {
   linkElement.setAttribute('href', dataUri);
   linkElement.setAttribute('download', exportFileDefaultName);
   linkElement.click();
+}
+
+// Import Modal Functions
+function openImportModal() {
+  // Initialize GitHub API if not already done
+  if (!githubAPI) {
+    githubAPI = new GitHubAPI();
+  }
+
+  // Check if token exists
+  if (githubAPI.hasToken()) {
+    // Token exists, go directly to import
+    performImport();
+  } else {
+    // Show token setup
+    document.getElementById('tokenSetup').classList.remove('hidden');
+    document.getElementById('importProgress').classList.add('hidden');
+    document.getElementById('importResults').classList.add('hidden');
+    document.getElementById('tokenError').classList.add('hidden');
+    document.getElementById('importModal').classList.remove('hidden');
+    document.getElementById('importModal').classList.add('open');
+  }
+}
+
+function closeImportModal() {
+  document.getElementById('importModal').classList.add('hidden');
+  document.getElementById('importModal').classList.remove('open');
+  // Reset the modal state
+  document.getElementById('githubToken').value = '';
+  document.getElementById('tokenError').classList.add('hidden');
+}
+
+async function validateAndImport() {
+  const tokenInput = document.getElementById('githubToken');
+  const token = tokenInput.value.trim();
+
+  if (!token) {
+    showTokenError('Please enter a GitHub personal access token');
+    return;
+  }
+
+  // Initialize GitHub API with token
+  if (!githubAPI) {
+    githubAPI = new GitHubAPI();
+  }
+  githubAPI.setToken(token);
+
+  // Show progress
+  document.getElementById('tokenSetup').classList.add('hidden');
+  document.getElementById('importProgress').classList.remove('hidden');
+  document.getElementById('importStatus').textContent = 'Validating token...';
+
+  try {
+    // Validate token
+    const validation = await githubAPI.validateToken();
+    if (!validation.valid) {
+      throw new Error(validation.error || 'Invalid token');
+    }
+
+    document.getElementById('importStatus').textContent = `Connected as ${validation.username}. Starting import...`;
+
+    // Perform the import
+    await performImport();
+
+  } catch (error) {
+    // Show error and go back to token setup
+    document.getElementById('tokenSetup').classList.remove('hidden');
+    document.getElementById('importProgress').classList.add('hidden');
+    showTokenError(error.message);
+  }
+}
+
+function showTokenError(message) {
+  const errorDiv = document.getElementById('tokenError');
+  errorDiv.querySelector('p').textContent = message;
+  errorDiv.classList.remove('hidden');
+}
+
+async function performImport() {
+  // Show progress
+  document.getElementById('tokenSetup').classList.add('hidden');
+  document.getElementById('importProgress').classList.remove('hidden');
+  document.getElementById('importResults').classList.add('hidden');
+
+  const progressBar = document.getElementById('importProgressBar');
+  const statusText = document.getElementById('importStatus');
+
+  try {
+    // Import owned repositories
+    statusText.textContent = 'Fetching your repositories...';
+    progressBar.style.width = '25%';
+
+    const ownedRepos = await githubAPI.fetchOwnedRepositories();
+
+    statusText.textContent = `Found ${ownedRepos.length} owned repositories. Processing...`;
+    progressBar.style.width = '50%';
+
+    // Import starred repositories
+    statusText.textContent = 'Fetching starred repositories...';
+    progressBar.style.width = '75%';
+
+    const starredRepos = await githubAPI.fetchStarredRepositories();
+
+    statusText.textContent = `Found ${starredRepos.length} starred repositories. Processing...`;
+    progressBar.style.width = '90%';
+
+    // Merge with existing data (avoid duplicates)
+    let newOwnedCount = 0;
+    let newStarredCount = 0;
+
+    // Process owned repos
+    ownedRepos.forEach(newRepo => {
+      const exists = repositories.owned.some(r =>
+        r.url === newRepo.url ||
+        (r.name === newRepo.name && r.owner === newRepo.owner)
+      );
+      if (!exists) {
+        repositories.owned.push(newRepo);
+        newOwnedCount++;
+      }
+    });
+
+    // Process starred repos
+    starredRepos.forEach(newRepo => {
+      const exists = repositories.starred.some(r =>
+        r.url === newRepo.url ||
+        (r.name === newRepo.name && r.owner === newRepo.owner)
+      );
+      if (!exists) {
+        repositories.starred.push(newRepo);
+        newStarredCount++;
+      }
+    });
+
+    // Sort repositories by update date (newest first)
+    repositories.owned.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    repositories.starred.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
+    // Save data
+    saveData();
+    renderRepositories();
+
+    // Show results
+    progressBar.style.width = '100%';
+    statusText.textContent = 'Import complete!';
+
+    setTimeout(() => {
+      document.getElementById('importProgress').classList.add('hidden');
+      document.getElementById('importResults').classList.remove('hidden');
+
+      const summaryText = `Imported ${newOwnedCount} owned and ${newStarredCount} starred repositories.` +
+        (newOwnedCount === 0 && newStarredCount === 0 ? ' All repositories were already in your list.' : '');
+      document.getElementById('importSummary').textContent = summaryText;
+
+      // Store last sync time
+      localStorage.setItem('lastGitHubSync', new Date().toISOString());
+    }, 500);
+
+  } catch (error) {
+    console.error('Import error:', error);
+
+    // Check if it's a token error
+    if (error.message.includes('token') || error.message.includes('401')) {
+      // Clear the bad token
+      githubAPI.clearToken();
+      // Show token setup again
+      document.getElementById('tokenSetup').classList.remove('hidden');
+      document.getElementById('importProgress').classList.add('hidden');
+      showTokenError(error.message);
+    } else {
+      // Show error in progress area
+      statusText.textContent = `Error: ${error.message}`;
+      progressBar.style.width = '0%';
+      progressBar.classList.add('bg-red-600');
+
+      setTimeout(() => {
+        closeImportModal();
+      }, 3000);
+    }
+  }
+}
+
+// Quick import function (when token already exists)
+async function quickImport() {
+  if (!githubAPI) {
+    githubAPI = new GitHubAPI();
+  }
+
+  if (githubAPI.hasToken()) {
+    document.getElementById('importModal').classList.remove('hidden');
+    document.getElementById('importModal').classList.add('open');
+    await performImport();
+  } else {
+    openImportModal();
+  }
 }

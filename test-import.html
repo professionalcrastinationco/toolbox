@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test GitHub Import</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #0366d6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0256c7;
+        }
+        .result {
+            background: white;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        pre {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>GitHub Import Feature Test</h1>
+
+    <div class="test-section">
+        <h2>1. Test Token Storage</h2>
+        <button onclick="testTokenStorage()">Test Token Storage</button>
+        <div id="tokenResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test API Initialization</h2>
+        <button onclick="testAPIInit()">Initialize API</button>
+        <div id="apiResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Token Validation</h2>
+        <input type="password" id="testToken" placeholder="Enter GitHub token (ghp_...)" style="width: 300px; padding: 8px;">
+        <button onclick="testValidation()">Validate Token</button>
+        <div id="validationResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Test Repository Fetching</h2>
+        <button onclick="testFetchRepos()">Fetch My Repos</button>
+        <button onclick="testFetchStarred()">Fetch Starred</button>
+        <div id="fetchResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Full Import Test</h2>
+        <button onclick="window.location.href='index.html'">Go to Main App</button>
+        <p>Use the "Import from GitHub" button in the main application to test the full workflow.</p>
+    </div>
+
+    <script src="assets/js/github-api.js"></script>
+    <script>
+        let api = null;
+
+        function testTokenStorage() {
+            const resultDiv = document.getElementById('tokenResult');
+            resultDiv.style.display = 'block';
+
+            try {
+                // Test setting and getting token
+                const testToken = 'test_token_123';
+                localStorage.setItem('github_token', btoa(testToken));
+                const retrieved = atob(localStorage.getItem('github_token'));
+
+                if (retrieved === testToken) {
+                    resultDiv.innerHTML = '<span class="success">✓ Token storage working correctly</span>';
+                    resultDiv.innerHTML += '<pre>Encoded: ' + btoa(testToken) + '\nDecoded: ' + retrieved + '</pre>';
+                } else {
+                    resultDiv.innerHTML = '<span class="error">✗ Token storage failed</span>';
+                }
+
+                // Clean up
+                localStorage.removeItem('github_token');
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+            }
+        }
+
+        function testAPIInit() {
+            const resultDiv = document.getElementById('apiResult');
+            resultDiv.style.display = 'block';
+
+            try {
+                api = new GitHubAPI();
+                resultDiv.innerHTML = '<span class="success">✓ API initialized successfully</span>';
+                resultDiv.innerHTML += '<pre>API object created\nBase URL: ' + api.baseURL + '\nHas token: ' + api.hasToken() + '</pre>';
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+            }
+        }
+
+        async function testValidation() {
+            const resultDiv = document.getElementById('validationResult');
+            resultDiv.style.display = 'block';
+
+            const token = document.getElementById('testToken').value.trim();
+            if (!token) {
+                resultDiv.innerHTML = '<span class="error">✗ Please enter a token</span>';
+                return;
+            }
+
+            resultDiv.innerHTML = 'Validating...';
+
+            try {
+                if (!api) api = new GitHubAPI();
+                api.setToken(token);
+
+                const validation = await api.validateToken();
+
+                if (validation.valid) {
+                    resultDiv.innerHTML = '<span class="success">✓ Token is valid!</span>';
+                    resultDiv.innerHTML += '<pre>Username: ' + validation.username +
+                                         '\nName: ' + validation.name + '</pre>';
+                } else {
+                    resultDiv.innerHTML = '<span class="error">✗ Invalid token: ' + validation.error + '</span>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+            }
+        }
+
+        async function testFetchRepos() {
+            const resultDiv = document.getElementById('fetchResult');
+            resultDiv.style.display = 'block';
+
+            if (!api || !api.hasToken()) {
+                resultDiv.innerHTML = '<span class="error">✗ Please validate a token first</span>';
+                return;
+            }
+
+            resultDiv.innerHTML = 'Fetching owned repositories...';
+
+            try {
+                const repos = await api.fetchOwnedRepositories();
+                resultDiv.innerHTML = '<span class="success">✓ Fetched ' + repos.length + ' owned repositories</span>';
+
+                if (repos.length > 0) {
+                    resultDiv.innerHTML += '<pre>First 3 repos:\n';
+                    repos.slice(0, 3).forEach(repo => {
+                        resultDiv.innerHTML += '- ' + repo.name + ' (' + repo.language + ')\n';
+                    });
+                    resultDiv.innerHTML += '</pre>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+            }
+        }
+
+        async function testFetchStarred() {
+            const resultDiv = document.getElementById('fetchResult');
+            resultDiv.style.display = 'block';
+
+            if (!api || !api.hasToken()) {
+                resultDiv.innerHTML = '<span class="error">✗ Please validate a token first</span>';
+                return;
+            }
+
+            resultDiv.innerHTML = 'Fetching starred repositories...';
+
+            try {
+                const repos = await api.fetchStarredRepositories();
+                resultDiv.innerHTML = '<span class="success">✓ Fetched ' + repos.length + ' starred repositories</span>';
+
+                if (repos.length > 0) {
+                    resultDiv.innerHTML += '<pre>First 3 starred repos:\n';
+                    repos.slice(0, 3).forEach(repo => {
+                        resultDiv.innerHTML += '- ' + repo.name + ' (★ ' + repo.stars + ')\n';
+                    });
+                    resultDiv.innerHTML += '</pre>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+            }
+        }
+    </script>
+</body>
+</html>
